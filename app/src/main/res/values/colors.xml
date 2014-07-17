@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="edit_text_field_background">#FFAAAAAA</color>
     <color name="item_text_color">#FF00FF00</color>
-    <color name="item_background">#FF111111</color>
+    <color name="list_background">#FF111111</color>
 </resources>
