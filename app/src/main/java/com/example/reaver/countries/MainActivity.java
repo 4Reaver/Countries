@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +23,8 @@ import java.util.ArrayList;
 
 
 public class MainActivity extends Activity implements View.OnClickListener, FragmentAdd.OnOkButtonClickListener {
+    private static final int DELETE_ID = 1;
+
     private ArrayAdapter<String> adapter;
     private ArrayList<String> countries = new ArrayList<String>();
     private ArrayList<String> squares = new ArrayList<String>();
@@ -53,6 +57,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
         lvMain = (ListView) findViewById(R.id.listViewMain);
         adapter = new ArrayAdapter<String>(this, R.layout.item, countries);
         lvMain.setAdapter(adapter);
+        registerForContextMenu(lvMain);
         fragmentAdd = new FragmentAdd();
     }
 
@@ -90,5 +95,22 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
         Toast.makeText(this, "Добавлена страна: ".concat(newCountry), Toast.LENGTH_SHORT).show();
         countries.add(newCountry);
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add(0, DELETE_ID, 0, "Удалить");
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        if ( item.getItemId() == DELETE_ID ) {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
+            countries.remove(info.position);
+            adapter.notifyDataSetChanged();
+        }
+        return super.onContextItemSelected(item);
     }
 }
