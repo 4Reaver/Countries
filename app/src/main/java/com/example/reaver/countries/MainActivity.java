@@ -1,12 +1,17 @@
 package com.example.reaver.countries;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,13 +20,15 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements View.OnClickListener, FragmentAdd.OnOkButtonClickListener {
+    private ArrayAdapter<String> adapter;
     private ArrayList<String> countries = new ArrayList<String>();
     private ArrayList<String> squares = new ArrayList<String>();
+    private DialogFragment fragmentAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ArrayAdapter<String> adapter;
+        Button addButton;
         ListView lvMain;
         String name;
         String square;
@@ -32,6 +39,7 @@ public class MainActivity extends Activity {
         try {
             InputStream is = getAssets().open("namesandsquares.txt");
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
+
             while ( (name = br.readLine()) != null && (square = br.readLine()) != null ) {
                 countries.add(name);
                 squares.add(square);
@@ -40,9 +48,12 @@ public class MainActivity extends Activity {
             Log.d("MY_LOG", "File \"namesandsquares\" not found");
         }
 
+        addButton = (Button) findViewById(R.id.addButton);
+        addButton.setOnClickListener(this);
         lvMain = (ListView) findViewById(R.id.listViewMain);
         adapter = new ArrayAdapter<String>(this, R.layout.item, countries);
         lvMain.setAdapter(adapter);
+        fragmentAdd = new FragmentAdd();
     }
 
 
@@ -63,5 +74,21 @@ public class MainActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.addButton:
+                fragmentAdd.show(getFragmentManager(), "add_TAG");
+                break;
+        }
+    }
+
+    @Override
+    public void onOkButtonClicked(String newCountry) {
+        Toast.makeText(this, "Добавлена страна: ".concat(newCountry), Toast.LENGTH_SHORT).show();
+        countries.add(newCountry);
+        adapter.notifyDataSetChanged();
     }
 }

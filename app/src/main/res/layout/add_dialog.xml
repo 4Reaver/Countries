@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:padding="@dimen/dialog_padding">
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/dialog_text_size"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/OKbutton"/>
+
+    <Button
+        android:id="@+id/OKbutton"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="match_parent"
+        android:text="@string/ok_button_text"
+        android:textSize="@dimen/dialog_text_size"
+        android:layout_alignTop="@id/editText"
+        android:layout_alignBottom="@id/editText"
+        android:layout_alignParentRight="true"/>
+
+</RelativeLayout>
