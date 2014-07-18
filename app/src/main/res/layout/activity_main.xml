@@ -8,44 +8,17 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
-
         <ListView
             android:id="@+id/listViewMain"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/ll_enter">
+            android:layout_above="@+id/addButton">
         </ListView>
-
         <Button
             android:id="@+id/addButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/add_button_text"
             android:layout_alignParentBottom="true"/>
-        <LinearLayout
-            android:id="@+id/ll_enter"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:layout_alignParentBottom="true"
-            android:visibility="invisible">
-
-            <EditText
-                android:id="@+id/editText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/edit_text_size"
-                android:background="@color/edit_text_field_background" />
-
-            <Button
-                android:id="@+id/OKbutton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/ok_button_text"
-                android:layout_weight="0"/>
-        </LinearLayout>
     </RelativeLayout>
-
 </LinearLayout>

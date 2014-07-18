@@ -1,6 +1,7 @@
 package com.example.reaver.countries;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -19,15 +20,15 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 
-public class MainActivity extends Activity implements View.OnClickListener {
+public class MainActivity extends Activity implements View.OnClickListener, FragmentAdd.OnOkButtonClickListener {
+    private ArrayAdapter<String> adapter;
     private ArrayList<String> countries = new ArrayList<String>();
     private ArrayList<String> squares = new ArrayList<String>();
+    private DialogFragment fragmentAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ArrayAdapter<String> adapter;
-        Button add;
-        Button add2;
+        Button addButton;
         ListView lvMain;
         String name;
         String square;
@@ -47,13 +48,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
             Log.d("MY_LOG", "File \"namesandsquares\" not found");
         }
 
-        add = (Button) findViewById(R.id.addButton);
-        add2 = (Button) findViewById(R.id.OKbutton);
-        add.setOnClickListener(this);
-        add2.setOnClickListener(this);
+        addButton = (Button) findViewById(R.id.addButton);
+        addButton.setOnClickListener(this);
         lvMain = (ListView) findViewById(R.id.listViewMain);
         adapter = new ArrayAdapter<String>(this, R.layout.item, countries);
         lvMain.setAdapter(adapter);
+        fragmentAdd = new FragmentAdd();
     }
 
 
@@ -78,22 +78,17 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        EditText editText = (EditText)findViewById(R.id.editText);
         switch (view.getId()) {
             case R.id.addButton:
-                Toast.makeText(this, "Добавить нажата", Toast.LENGTH_SHORT).show();
-                view.setVisibility(View.INVISIBLE);
-                findViewById(R.id.ll_enter).setVisibility(View.VISIBLE);
-                editText.requestFocus();
-                break;
-            case R.id.OKbutton:
-                String country = editText.getText().toString();
-
-                editText.setText("");
-                Toast.makeText(this, "OK нажата и добавлена страна: ".concat(country), Toast.LENGTH_SHORT).show();
-                findViewById(R.id.ll_enter).setVisibility(View.INVISIBLE);
-                findViewById(R.id.addButton).setVisibility(View.VISIBLE);
+                fragmentAdd.show(getFragmentManager(), "add_TAG");
                 break;
         }
+    }
+
+    @Override
+    public void onOkButtonClicked(String newCountry) {
+        Toast.makeText(this, "Добавлена страна: ".concat(newCountry), Toast.LENGTH_SHORT).show();
+        countries.add(newCountry);
+        adapter.notifyDataSetChanged();
     }
 }
