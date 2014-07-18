@@ -57,7 +57,15 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
         lvMain = (ListView) findViewById(R.id.listViewMain);
         adapter = new ArrayAdapter<String>(this, R.layout.item, countries);
         lvMain.setAdapter(adapter);
-        registerForContextMenu(lvMain);
+        lvMain.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                countries.remove(i);
+                adapter.notifyDataSetChanged();
+                return true;
+            }
+        });
+        /*registerForContextMenu(lvMain);*/
         fragmentAdd = new FragmentAdd();
     }
 
@@ -97,7 +105,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
         adapter.notifyDataSetChanged();
     }
 
-    @Override
+    /*@Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         menu.add(0, DELETE_ID, 0, "Удалить");
@@ -112,5 +120,5 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
             adapter.notifyDataSetChanged();
         }
         return super.onContextItemSelected(item);
-    }
+    }*/
 }
