@@ -20,33 +20,41 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.Scanner;
 
 
 public class MainActivity extends Activity implements View.OnClickListener, FragmentAdd.OnOkButtonClickListener {
     private static final int DELETE_ID = 1;
 
-    private ArrayAdapter<String> adapter;
-    private ArrayList<String> countries = new ArrayList<String>();
-    private ArrayList<String> squares = new ArrayList<String>();
+    private ArrayAdapter<Country> adapter;
+    //private ArrayList<String> countries = new ArrayList<String>();
+    private ArrayList<Country> countries = new ArrayList<Country>();
+    //private ArrayList<String> squares = new ArrayList<String>();
     private DialogFragment fragmentAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Button addButton;
         ListView lvMain;
-        String name;
-        String square;
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         try {
-            InputStream is = getAssets().open("namesandsquares.txt");
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+            InputStream is = getAssets().open("names_s_a.txt");
+            Scanner scanner = new Scanner(is).useLocale(Locale.US);
+            String name;
+            int area;
+            int population;
 
-            while ( (name = br.readLine()) != null && (square = br.readLine()) != null ) {
-                countries.add(name);
-                squares.add(square);
+
+            while ( scanner.hasNextLine() ) {
+                name = scanner.nextLine();
+                area = scanner.nextInt();
+                population = scanner.nextInt();
+                countries.add(new Country(name, area, population));
+                scanner.nextLine();
             }
         } catch (IOException e) {
             Log.d("MY_LOG", "File \"namesandsquares\" not found");
@@ -55,8 +63,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
         addButton = (Button) findViewById(R.id.addButton);
         addButton.setOnClickListener(this);
         lvMain = (ListView) findViewById(R.id.listViewMain);
-        adapter = new ArrayAdapter<String>(this, R.layout.item, countries);
+        adapter = new ArrayAdapter<Country>(this, R.layout.item, countries);
         lvMain.setAdapter(adapter);
+
         lvMain.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -101,7 +110,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
     @Override
     public void onOkButtonClicked(String newCountry) {
         Toast.makeText(this, "Добавлена страна: ".concat(newCountry), Toast.LENGTH_SHORT).show();
-        countries.add(newCountry);
+        //countries.add(newCountry);
         adapter.notifyDataSetChanged();
     }
 
