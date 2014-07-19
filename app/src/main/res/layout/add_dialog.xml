@@ -1,28 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
     android:padding="@dimen/dialog_padding">
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/newCountryName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="Enter country name"
+        android:textSize="@dimen/dialog_text_size"/>
+
+    <EditText
+        android:id="@+id/newCountryArea"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
         android:textSize="@dimen/dialog_text_size"
-        android:layout_alignParentLeft="true"
-        android:layout_toLeftOf="@+id/OKbutton"/>
+        android:hint="Enter area"
+        android:layout_below="@+id/newCountryName"
+        />
+
+    <EditText
+        android:id="@+id/newCountryPopulation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:textSize="@dimen/dialog_text_size"
+        android:hint="Enter population"
+        android:layout_below="@+id/newCountryArea" />
 
     <Button
         android:id="@+id/OKbutton"
         android:layout_width="@dimen/button_width"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/ok_button_text"
         android:textSize="@dimen/dialog_text_size"
-        android:layout_alignTop="@id/editText"
-        android:layout_alignBottom="@id/editText"
-        android:layout_alignParentRight="true"/>
-
+        android:layout_below="@+id/newCountryPopulation"
+        android:layout_centerHorizontal="true"/>
 </RelativeLayout>

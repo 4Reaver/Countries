@@ -1,26 +1,25 @@
 package com.example.reaver.countries;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 
 /**
  * Created by Reaver on 17.07.2014.
  */
 public class FragmentAdd extends DialogFragment implements View.OnClickListener{
     public interface OnOkButtonClickListener {
-        public void onOkButtonClicked(String newCountry);
+        public void onOkButtonClicked(Country newCountry);
     }
 
-    private EditText editText;
+    private EditText newCountryName;
+    private EditText newArea;
+    private EditText newPopulation;
     private OnOkButtonClickListener listener;
 
     @Override
@@ -45,7 +44,9 @@ public class FragmentAdd extends DialogFragment implements View.OnClickListener{
 
         getDialog().getWindow().requestFeature(STYLE_NO_TITLE);
         okButton = (Button) v.findViewById(R.id.OKbutton);
-        editText = (EditText) v.findViewById(R.id.editText);
+        newCountryName = (EditText) v.findViewById(R.id.newCountryName);
+        newArea = (EditText) v.findViewById(R.id.newCountryArea);
+        newPopulation = (EditText) v.findViewById(R.id.newCountryPopulation);
         okButton.setOnClickListener(this);
 
         return v;
@@ -69,8 +70,15 @@ public class FragmentAdd extends DialogFragment implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.OKbutton:
-                listener.onOkButtonClicked(editText.getText().toString());
-                editText.setText("");
+                String name = newCountryName.getText().toString();
+                int area = Integer.parseInt(newArea.getText().toString());
+                int population = Integer.parseInt(newPopulation.getText().toString());
+                Country newCountry = new Country(name, area, population);
+
+                listener.onOkButtonClicked(newCountry);
+                newCountryName.setText("");
+                newArea.setText("");
+                newPopulation.setText("");
                 this.dismiss();
                 break;
         }

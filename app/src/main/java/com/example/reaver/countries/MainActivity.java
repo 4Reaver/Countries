@@ -108,9 +108,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
     }
 
     @Override
-    public void onOkButtonClicked(String newCountry) {
-        Toast.makeText(this, "Добавлена страна: ".concat(newCountry), Toast.LENGTH_SHORT).show();
-        //countries.add(newCountry);
+    public void onOkButtonClicked(Country newCountry) {
+        Toast.makeText(this, "Добавлена страна: ".concat(newCountry.toString()), Toast.LENGTH_SHORT).show();
+        countries.add(newCountry);
         adapter.notifyDataSetChanged();
     }
 
