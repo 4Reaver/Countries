@@ -8,5 +8,5 @@
     <string name="item_text">Item Text</string>
     <string name="ok_button_text">OK</string>
     <string name="add_country_dialog_title">Add new country</string>
-
+    <string name="filter_hint">Filter here</string>
 </resources>

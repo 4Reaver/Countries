@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -26,7 +28,7 @@ import java.util.Scanner;
 
 
 public class MainActivity extends Activity implements View.OnClickListener, FragmentAdd.OnOkButtonClickListener,
-        AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener {
+        AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener, TextWatcher {
     private static final int DELETE_ID = 1;
 
     private ArrayAdapter<Country> adapter;
@@ -34,6 +36,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
     private ArrayList<Country> countries = new ArrayList<Country>();
     //private ArrayList<String> squares = new ArrayList<String>();
     private DialogFragment fragmentAdd;
+    private EditText filter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +67,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
 
         addButton = (Button) findViewById(R.id.addButton);
         addButton.setOnClickListener(this);
+        filter = (EditText) findViewById(R.id.filter);
+        filter.addTextChangedListener(this);
         lvMain = (ListView) findViewById(R.id.listViewMain);
         adapter = new ArrayAdapter<Country>(this, R.layout.item, countries);
         lvMain.setAdapter(adapter);
@@ -73,7 +78,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
         /*registerForContextMenu(lvMain);*/
         fragmentAdd = new FragmentAdd();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -142,5 +146,21 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
         Intent intent = new Intent(this, DetailActivity.class);
         intent.putExtra("Country", countries.get(i));
         startActivity(intent);
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+        adapter.getFilter().filter(filter.getText().toString());
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+
     }
 }

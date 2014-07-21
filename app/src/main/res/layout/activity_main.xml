@@ -8,11 +8,18 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
+        <EditText
+            android:id="@+id/filter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/filter_hint"
+            android:layout_alignParentTop="true"/>
         <ListView
             android:id="@+id/listViewMain"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/addButton">
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/addButton"
+            android:layout_below="@+id/filter">
         </ListView>
         <Button
             android:id="@+id/addButton"
