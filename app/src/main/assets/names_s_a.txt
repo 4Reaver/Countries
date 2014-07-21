@@ -7,7 +7,7 @@ Canada
 China
 9,596,961
 1,350,695,000
-United_States
+United States
 9,629,091
 318,406,000
 Brazil

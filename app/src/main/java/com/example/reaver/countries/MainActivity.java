@@ -2,6 +2,7 @@ package com.example.reaver.countries;
 
 import android.app.Activity;
 import android.app.DialogFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -24,7 +25,8 @@ import java.util.Locale;
 import java.util.Scanner;
 
 
-public class MainActivity extends Activity implements View.OnClickListener, FragmentAdd.OnOkButtonClickListener {
+public class MainActivity extends Activity implements View.OnClickListener, FragmentAdd.OnOkButtonClickListener,
+        AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener {
     private static final int DELETE_ID = 1;
 
     private ArrayAdapter<Country> adapter;
@@ -66,14 +68,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
         adapter = new ArrayAdapter<Country>(this, R.layout.item, countries);
         lvMain.setAdapter(adapter);
 
-        lvMain.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                countries.remove(i);
-                adapter.notifyDataSetChanged();
-                return true;
-            }
-        });
+        lvMain.setOnItemLongClickListener(this);
+        lvMain.setOnItemClickListener(this);
         /*registerForContextMenu(lvMain);*/
         fragmentAdd = new FragmentAdd();
     }
@@ -104,6 +100,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
             case R.id.addButton:
                 fragmentAdd.show(getFragmentManager(), "add_TAG");
                 break;
+            default:
+                Toast.makeText(this, String.valueOf(view.getId()), Toast.LENGTH_SHORT).show();
+                break;
         }
     }
 
@@ -130,4 +129,18 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
         }
         return super.onContextItemSelected(item);
     }*/
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+        countries.remove(i);
+        adapter.notifyDataSetChanged();
+        return true;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Intent intent = new Intent(this, DetailActivity.class);
+        intent.putExtra("Country", countries.get(i));
+        startActivity(intent);
+    }
 }
