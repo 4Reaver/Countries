@@ -28,7 +28,7 @@ import java.util.Scanner;
 
 
 public class MainActivity extends Activity implements View.OnClickListener, FragmentAdd.OnOkButtonClickListener,
-        AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener, TextWatcher {
+        AdapterView.OnItemClickListener, TextWatcher {
     private static final int DELETE_ID = 1;
 
     private ArrayAdapter<Country> adapter;
@@ -73,9 +73,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
         adapter = new ArrayAdapter<Country>(this, R.layout.item, countries);
         lvMain.setAdapter(adapter);
 
-        lvMain.setOnItemLongClickListener(this);
+        //lvMain.setOnItemLongClickListener(this);
         lvMain.setOnItemClickListener(this);
-        /*registerForContextMenu(lvMain);*/
+        registerForContextMenu(lvMain);
         fragmentAdd = new FragmentAdd();
     }
 
@@ -104,9 +104,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
             case R.id.addButton:
                 fragmentAdd.show(getFragmentManager(), "add_TAG");
                 break;
-            default:
-                Toast.makeText(this, String.valueOf(view.getId()), Toast.LENGTH_SHORT).show();
-                break;
         }
     }
 
@@ -117,7 +114,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
         adapter.notifyDataSetChanged();
     }
 
-    /*@Override
+    @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         menu.add(0, DELETE_ID, 0, "Удалить");
@@ -132,14 +129,14 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
             adapter.notifyDataSetChanged();
         }
         return super.onContextItemSelected(item);
-    }*/
+    }
 
-    @Override
+    /*@Override
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
         countries.remove(i);
         adapter.notifyDataSetChanged();
         return true;
-    }
+    }*/
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
