@@ -31,7 +31,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
         AdapterView.OnItemClickListener, TextWatcher {
     private static final int DELETE_ID = 1;
 
-    //private ArrayAdapter<Country> adapter;
     private CountryAdapter adapter;
     private ArrayList<Country> countries = new ArrayList<Country>();
     private DialogFragment fragmentAdd;
@@ -112,8 +111,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
     @Override
     public void onOkButtonClicked(Country newCountry) {
         Toast.makeText(this, "Добавлена страна: ".concat(newCountry.toString()), Toast.LENGTH_SHORT).show();
-        countries = adapter.getCountries();
+
         countries.add(newCountry);
+        adapter.getFilter().filter(filter.getText().toString());
         adapter.notifyDataSetChanged();
     }
 
@@ -128,8 +128,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
         if ( item.getItemId() == DELETE_ID ) {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 
-            countries = adapter.getCountries();
-            countries.remove(info.position);
+            countries.remove((int) info.id);
+            adapter.getFilter().filter(filter.getText().toString());
             adapter.notifyDataSetChanged();
         }
         return super.onContextItemSelected(item);

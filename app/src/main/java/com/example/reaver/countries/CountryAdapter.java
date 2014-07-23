@@ -24,11 +24,16 @@ public class CountryAdapter extends BaseAdapter implements Filterable {
     public CountryAdapter(Context context, ArrayList<Country> countries) {
         this.context = context;
         this.countries = countries;
+        this.originalCountries = countries;
         lInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     public ArrayList<Country> getCountries() {
         return countries;
+    }
+
+    public ArrayList<Country> getOriginalCountries() {
+        return originalCountries;
     }
 
     @Override
@@ -43,7 +48,7 @@ public class CountryAdapter extends BaseAdapter implements Filterable {
 
     @Override
     public long getItemId(int i) {
-        return i;
+        return originalCountries.indexOf(getItem(i));
     }
 
     @Override
@@ -84,10 +89,6 @@ public class CountryAdapter extends BaseAdapter implements Filterable {
                 ArrayList<Country> result = new ArrayList<Country>();
                 String cons = constraint.toString().toLowerCase();
 
-                if ( originalCountries == null ) {
-                    originalCountries = new ArrayList<Country>(countries);
-                }
-
                 if ( constraint != null && constraint.length() > 0) {
                     for ( Country c : originalCountries ) {
                         if ( c.getName().toLowerCase().contains(cons) ) {
@@ -97,7 +98,7 @@ public class CountryAdapter extends BaseAdapter implements Filterable {
 
                     return result;
                 }
-                return new ArrayList<Country>(originalCountries);
+                return originalCountries;
             }
         };
     }
