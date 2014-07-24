@@ -1,17 +1,35 @@
 package com.example.reaver.countries;
 
+import android.app.Application;
+import android.content.Context;
+import android.content.res.Resources;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Locale;
+import java.util.Scanner;
 
 /**
  * Created by Reaver on 18.07.2014.
  */
 public class Country implements Parcelable {
+    private static Context context;
+
     private String name;
     private int area;
     private int population;
+    private int iconID;
+    private int fullFlagID;
 
-    public Country(String name, int area, int population) {
+    public Country(Context context, String name, int area, int population) {
+        if ( Country.context == null ) {
+            Country.context = context;
+        }
+
         this.name = name;
         this.area = area;
         this.population = population;
@@ -33,6 +51,22 @@ public class Country implements Parcelable {
 
     public int getPopulation() {
         return population;
+    }
+
+    public static int getIconID(Country country, Context context) {
+        if ( country.iconID != 0 ) {
+            return country.iconID;
+        }
+
+        int id;
+        Resources resources = context.getResources();
+        String name = country.getName();
+
+        name = name.toLowerCase().replace(" ", "_").concat("_icon");
+        id = resources.getIdentifier(name, "drawable", context.getPackageName());
+        country.iconID = id;
+
+        return id;
     }
 
     @Override

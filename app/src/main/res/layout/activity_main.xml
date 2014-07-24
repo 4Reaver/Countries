@@ -13,7 +13,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/filter_hint"
-            android:layout_alignParentTop="true"/>
+            android:layout_alignParentTop="true"
+            android:textColor="@color/item_text_color"/>
         <ListView
             android:id="@+id/listViewMain"
             android:layout_width="match_parent"
