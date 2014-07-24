@@ -73,7 +73,7 @@ public class FragmentAdd extends DialogFragment implements View.OnClickListener{
                 String name = newCountryName.getText().toString();
                 int area = Integer.parseInt(newArea.getText().toString());
                 int population = Integer.parseInt(newPopulation.getText().toString());
-                Country newCountry = new Country(name, area, population);
+                Country newCountry = new Country(getActivity(), name, area, population);
 
                 listener.onOkButtonClicked(newCountry);
                 newCountryName.setText("");

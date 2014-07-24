@@ -55,13 +55,14 @@ public class CountryAdapter extends BaseAdapter implements Filterable {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
         Country c = (Country) getItem(position);
+        String name = c.getName();
 
         if ( view == null ) {
             view = lInflater.inflate(R.layout.item, parent, false);
         }
 
-        ((ImageView) view.findViewById(R.id.flag)).setImageResource(R.drawable.ic_launcher);
-        ((TextView) view.findViewById(R.id.country_name)).setText(c.getName());
+        ((ImageView) view.findViewById(R.id.flag)).setImageResource(Country.getIconID(c, context));
+        ((TextView) view.findViewById(R.id.country_name)).setText(name);
 
         return view;
     }

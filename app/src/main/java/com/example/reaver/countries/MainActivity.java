@@ -86,12 +86,11 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
             int area;
             int population;
 
-
             while ( scanner.hasNextLine() ) {
                 name = scanner.nextLine();
                 area = scanner.nextInt();
                 population = scanner.nextInt();
-                countries.add(new Country(name, area, population));
+                countries.add(new Country(this, name, area, population));
                 scanner.nextLine();
             }
         } catch (IOException e) {
