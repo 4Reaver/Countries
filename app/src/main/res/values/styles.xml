@@ -15,6 +15,7 @@
     </style>
     <style name="detail" parent="item">
         <item name="android:gravity">left</item>
+        <item name="android:textSize">@dimen/detail_text_size</item>
     </style>
 
 </resources>

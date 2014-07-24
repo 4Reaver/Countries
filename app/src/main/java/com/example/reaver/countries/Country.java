@@ -69,6 +69,22 @@ public class Country implements Parcelable {
         return id;
     }
 
+    public static int getFullFlagID(Country country, Context context) {
+        if ( country.fullFlagID != 0 ) {
+            return country.fullFlagID;
+        }
+
+        int id;
+        Resources resources = context.getResources();
+        String name = country.getName();
+
+        name = name.toLowerCase().replace(" ", "_").concat("_full");
+        id = resources.getIdentifier(name, "drawable", context.getPackageName());
+        country.iconID = id;
+
+        return id;
+    }
+
     @Override
     public String toString() {
         return getName();

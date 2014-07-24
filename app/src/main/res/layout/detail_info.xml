@@ -7,13 +7,13 @@
     <ImageView
         android:id="@+id/detail_flag"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:padding="@dimen/item_padding"/>
     <TextView
         android:id="@+id/detail_name"
-        style="@style/detail"
-         />
+        style="@style/detail"/>
 
-    <TextView
+      <TextView
         android:id="@+id/detail_area"
         style="@style/detail"/>
 

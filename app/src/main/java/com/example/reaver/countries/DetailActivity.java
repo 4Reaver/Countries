@@ -25,9 +25,9 @@ public class DetailActivity extends Activity {
         area = (TextView) findViewById(R.id.detail_area);
         population = (TextView) findViewById(R.id.detail_population);
 
-        flag.setImageResource(Country.getIconID(country, this));
+        flag.setImageResource(Country.getFullFlagID(country, this));
         name.setText("Country: " + country.getName());
         area.setText("Area: " + country.getArea());
-        population.setText("population: " + country.getPopulation());
+        population.setText("Population: " + country.getPopulation());
     }
 }
