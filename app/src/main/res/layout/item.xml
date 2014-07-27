@@ -10,12 +10,23 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:src="@drawable/ic_launcher"/>
-
-    <TextView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/country_name"
-        style="@style/item"
-        android:text="@string/item_text">
-    </TextView>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/country_name"
+            style="@style/item_country_name"
+            android:text="@string/item_text">
+        </TextView>
+        <TextView
+            android:id="@+id/item_area"
+            style="@style/item_details"
+            android:layout_gravity="bottom|left"/>
+        <TextView
+            android:id="@+id/item_population"
+            style="@style/item_details"
+            android:layout_gravity="bottom|right"/>
+    </FrameLayout>
 
 </LinearLayout>

@@ -63,6 +63,8 @@ public class CountryAdapter extends BaseAdapter implements Filterable {
 
         ((ImageView) view.findViewById(R.id.flag)).setImageResource(Country.getIconID(c, context));
         ((TextView) view.findViewById(R.id.country_name)).setText(name);
+        ((TextView) view.findViewById(R.id.item_area)).setText("Area: " + c.getArea());
+        ((TextView) view.findViewById(R.id.item_population)).setText("Population: " + c.getPopulation());
 
         return view;
     }
