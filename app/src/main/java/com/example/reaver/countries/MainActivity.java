@@ -28,7 +28,7 @@ import java.util.Scanner;
 
 
 public class MainActivity extends Activity implements View.OnClickListener, FragmentAdd.OnOkButtonClickListener,
-        AdapterView.OnItemClickListener, TextWatcher {
+        TextWatcher {
     private static final int DELETE_ID = 1;
 
     private CountryAdapter adapter;
@@ -54,7 +54,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
         adapter = new CountryAdapter(this, countries);
         lvMain.setAdapter(adapter);
 
-        lvMain.setOnItemClickListener(this);
+        lvMain.setOnItemClickListener(new ListViewItemDoubleClickListener(this, adapter));
         registerForContextMenu(lvMain);
         fragmentAdd = new FragmentAdd();
     }
@@ -141,12 +141,12 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
         return true;
     }*/
 
-    @Override
+    /*@Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Intent intent = new Intent(this, DetailActivity.class);
         intent.putExtra("Country", adapter.getCountries().get(i));
         startActivity(intent);
-    }
+    }*/
 
     @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
