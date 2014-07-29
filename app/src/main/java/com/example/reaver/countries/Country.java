@@ -1,29 +1,21 @@
 package com.example.reaver.countries;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Locale;
-import java.util.Scanner;
 
 /**
  * Created by Reaver on 18.07.2014.
  */
 public class Country implements Parcelable {
-    private static Context context;
-
-    private String name;
+    private boolean isChecked;
     private int area;
-    private int population;
     private int iconID;
     private int fullFlagID;
+    private int population;
+    private static Context context;
+    private String name;
 
     public Country(Context context, String name, int area, int population) {
         if ( Country.context == null ) {
@@ -33,12 +25,22 @@ public class Country implements Parcelable {
         this.name = name;
         this.area = area;
         this.population = population;
+        isChecked = false;
     }
 
     public Country (Parcel in) {
         this.name = in.readString();
         this.area = in.readInt();
         this.population = in.readInt();
+        this.isChecked = in.readByte() != 0;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void invertIsChecked() {
+        isChecked = !isChecked;
     }
 
     public String getName() {
@@ -80,7 +82,7 @@ public class Country implements Parcelable {
 
         name = name.toLowerCase().replace(" ", "_").concat("_full");
         id = resources.getIdentifier(name, "drawable", context.getPackageName());
-        country.iconID = id;
+        country.fullFlagID = id;
 
         return id;
     }
@@ -100,6 +102,7 @@ public class Country implements Parcelable {
         parcel.writeString(name);
         parcel.writeInt(area);
         parcel.writeInt(population);
+        parcel.writeByte((byte) (isChecked ? 1 : 0));
     }
 
     public static  final Parcelable.Creator<Country> CREATOR =

@@ -55,12 +55,20 @@ public class CountryAdapter extends BaseAdapter implements Filterable {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
         Country c = (Country) getItem(position);
+        ImageView checkMark;
 
         if ( view == null ) {
             view = lInflater.inflate(R.layout.item, parent, false);
         }
 
+
         ((ImageView) view.findViewById(R.id.flag)).setImageResource(Country.getIconID(c, context));
+        checkMark = ((ImageView) view.findViewById(R.id.checked));
+        if ( c.isChecked() ) {
+            checkMark.setVisibility(View.VISIBLE);
+        } else {
+            checkMark.setVisibility(View.INVISIBLE);
+        }
         ((TextView) view.findViewById(R.id.country_name)).setText(c.getName());
         ((TextView) view.findViewById(R.id.item_area)).setText("Area: " + c.getArea());
         ((TextView) view.findViewById(R.id.item_population)).setText("Population: " + c.getPopulation());

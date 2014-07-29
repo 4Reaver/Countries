@@ -86,5 +86,7 @@ public class ListViewItemDoubleClickListener implements AdapterView.OnItemClickL
 
     public void onDoubleTap(AdapterView<?> adapterView, View view, int i, long l) {
         Toast.makeText(context, "Doubletap!!" + adapter.getCountries().get(i).getName(), Toast.LENGTH_SHORT).show();
+        adapter.getCountries().get(i).invertIsChecked();
+        adapter.notifyDataSetChanged();
     }
 }
