@@ -14,7 +14,7 @@ import android.widget.Toast;
 public class ListViewItemDoubleClickListener implements AdapterView.OnItemClickListener{
     final int DOUBLE_TAP = 2;
     final int SINGLE_TAP = 1;
-    final long DELAY = 1000L;
+    final long DELAY = 300L;
 
     boolean isFirstTouchOccured = false;
     int handlerPosition;
@@ -67,10 +67,10 @@ public class ListViewItemDoubleClickListener implements AdapterView.OnItemClickL
 
             message = new Message();
             message.what = DOUBLE_TAP;
-            handler.sendMessage(message);
+            handler.sendMessageAtFrontOfQueue(message);
         } else {
-            handlerPosition = i;
             handler.removeMessages(SINGLE_TAP);
+            handlerPosition = i;
 
             message = new Message();
             message.what = SINGLE_TAP;
@@ -85,7 +85,6 @@ public class ListViewItemDoubleClickListener implements AdapterView.OnItemClickL
     }
 
     public void onDoubleTap(AdapterView<?> adapterView, View view, int i, long l) {
-        Toast.makeText(context, "Doubletap!!" + adapter.getCountries().get(i).getName(), Toast.LENGTH_SHORT).show();
         adapter.getCountries().get(i).invertIsChecked();
         adapter.notifyDataSetChanged();
     }

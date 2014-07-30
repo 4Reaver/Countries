@@ -134,20 +134,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
         return super.onContextItemSelected(item);
     }
 
-    /*@Override
-    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-        countries.remove(i);
-        adapter.notifyDataSetChanged();
-        return true;
-    }*/
-
-    /*@Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Intent intent = new Intent(this, DetailActivity.class);
-        intent.putExtra("Country", adapter.getCountries().get(i));
-        startActivity(intent);
-    }*/
-
     @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
 
