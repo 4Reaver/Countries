@@ -28,7 +28,7 @@ import java.util.Scanner;
 
 
 public class MainActivity extends Activity implements View.OnClickListener, FragmentAdd.OnOkButtonClickListener,
-        AdapterView.OnItemClickListener, TextWatcher {
+        TextWatcher {
     private static final int DELETE_ID = 1;
 
     private CountryAdapter adapter;
@@ -39,6 +39,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Button addButton;
+        Button delSelected;
+        Button changeBackground;
         ListView lvMain;
 
         super.onCreate(savedInstanceState);
@@ -48,13 +50,17 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
 
         addButton = (Button) findViewById(R.id.addButton);
         addButton.setOnClickListener(this);
+        delSelected = (Button) findViewById(R.id.btnDelSelected);
+        delSelected.setOnClickListener(this);
+        changeBackground = (Button) findViewById(R.id.btnChangeBackground);
+        changeBackground.setOnClickListener(this);
         filter = (EditText) findViewById(R.id.filter);
         filter.addTextChangedListener(this);
         lvMain = (ListView) findViewById(R.id.listViewMain);
         adapter = new CountryAdapter(this, countries);
         lvMain.setAdapter(adapter);
 
-        lvMain.setOnItemClickListener(this);
+        lvMain.setOnItemClickListener(new ListViewItemDoubleClickListener(this, adapter));
         registerForContextMenu(lvMain);
         fragmentAdd = new FragmentAdd();
     }
@@ -104,6 +110,21 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
             case R.id.addButton:
                 fragmentAdd.show(getFragmentManager(), "add_TAG");
                 break;
+            case R.id.btnDelSelected:
+                ArrayList<Country> countriesSet = new ArrayList<Country>(countries);
+
+                for ( Country c : countriesSet ) {
+                    if ( c.isChecked() ) {
+                        countries.remove(c);
+                    }
+                }
+                adapter.getFilter().filter(filter.getText().toString());
+                adapter.notifyDataSetChanged();
+                break;
+            case R.id.btnChangeBackground:
+                adapter.invertChangeBackground();
+                adapter.notifyDataSetChanged();
+                break;
         }
     }
 
@@ -132,20 +153,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
             adapter.notifyDataSetChanged();
         }
         return super.onContextItemSelected(item);
-    }
-
-    /*@Override
-    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-        countries.remove(i);
-        adapter.notifyDataSetChanged();
-        return true;
-    }*/
-
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Intent intent = new Intent(this, DetailActivity.class);
-        intent.putExtra("Country", adapter.getCountries().get(i));
-        startActivity(intent);
     }
 
     @Override

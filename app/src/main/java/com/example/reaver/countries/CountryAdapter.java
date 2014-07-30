@@ -1,6 +1,7 @@
 package com.example.reaver.countries;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
  * Created by Reaver on 23.07.2014.
  */
 public class CountryAdapter extends BaseAdapter implements Filterable {
+    private boolean changeBackground;
     private Context context;
     private LayoutInflater lInflater;
     private ArrayList<Country> countries;
@@ -26,6 +28,7 @@ public class CountryAdapter extends BaseAdapter implements Filterable {
         this.countries = countries;
         this.originalCountries = countries;
         lInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.changeBackground = false;
     }
 
     public ArrayList<Country> getCountries() {
@@ -34,6 +37,10 @@ public class CountryAdapter extends BaseAdapter implements Filterable {
 
     public ArrayList<Country> getOriginalCountries() {
         return originalCountries;
+    }
+
+    public void invertChangeBackground() {
+        changeBackground = !changeBackground;
     }
 
     @Override
@@ -55,16 +62,29 @@ public class CountryAdapter extends BaseAdapter implements Filterable {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
         Country c = (Country) getItem(position);
-        String name = c.getName();
+        ImageView checkMark;
+        Resources resources = context.getResources();
 
         if ( view == null ) {
             view = lInflater.inflate(R.layout.item, parent, false);
         }
 
+
         ((ImageView) view.findViewById(R.id.flag)).setImageResource(Country.getIconID(c, context));
-        ((TextView) view.findViewById(R.id.country_name)).setText(name);
+        checkMark = ((ImageView) view.findViewById(R.id.checked));
+        if ( c.isChecked() ) {
+            checkMark.setVisibility(View.VISIBLE);
+        } else {
+            checkMark.setVisibility(View.INVISIBLE);
+        }
+        ((TextView) view.findViewById(R.id.country_name)).setText(c.getName());
         ((TextView) view.findViewById(R.id.item_area)).setText("Area: " + c.getArea());
         ((TextView) view.findViewById(R.id.item_population)).setText("Population: " + c.getPopulation());
+        if ( changeBackground && c.isChecked()) {
+            view.setBackgroundColor(resources.getColor(R.color.listItem_selected_background));
+        } else {
+            view.setBackgroundColor(resources.getColor(R.color.list_background));
+        }
 
         return view;
     }
