@@ -39,6 +39,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Button addButton;
+        Button delSelected;
+        Button changeBackground;
         ListView lvMain;
 
         super.onCreate(savedInstanceState);
@@ -48,6 +50,10 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
 
         addButton = (Button) findViewById(R.id.addButton);
         addButton.setOnClickListener(this);
+        delSelected = (Button) findViewById(R.id.btnDelSelected);
+        delSelected.setOnClickListener(this);
+        changeBackground = (Button) findViewById(R.id.btnChangeBackground);
+        changeBackground.setOnClickListener(this);
         filter = (EditText) findViewById(R.id.filter);
         filter.addTextChangedListener(this);
         lvMain = (ListView) findViewById(R.id.listViewMain);
@@ -103,6 +109,21 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
         switch (view.getId()) {
             case R.id.addButton:
                 fragmentAdd.show(getFragmentManager(), "add_TAG");
+                break;
+            case R.id.btnDelSelected:
+                ArrayList<Country> countriesSet = new ArrayList<Country>(countries);
+
+                for ( Country c : countriesSet ) {
+                    if ( c.isChecked() ) {
+                        countries.remove(c);
+                    }
+                }
+                adapter.getFilter().filter(filter.getText().toString());
+                adapter.notifyDataSetChanged();
+                break;
+            case R.id.btnChangeBackground:
+                adapter.invertChangeBackground();
+                adapter.notifyDataSetChanged();
                 break;
         }
     }
