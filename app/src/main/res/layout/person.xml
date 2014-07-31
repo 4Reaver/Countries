@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+        <TextView
+            android:id="@+id/person_name"
+            android:layout_alignParentTop="true"
+            android:text="Name"
+            style="@style/item_person"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/person_residence"
+            android:text="Country"
+            style="@style/item_person"
+            android:layout_below="@+id/person_name"
+            android:gravity="center"/>
+    </RelativeLayout>
+    <CheckBox
+        android:id="@+id/people_checkbox"
+        android:layout_width="@dimen/checkbox_size"
+        android:layout_height="@dimen/checkbox_size"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:focusable="false"
+        android:focusableInTouchMode="false"/>
+</LinearLayout>

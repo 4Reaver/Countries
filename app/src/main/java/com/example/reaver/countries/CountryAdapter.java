@@ -35,6 +35,10 @@ public class CountryAdapter extends BaseAdapter implements Filterable {
         return countries;
     }
 
+    public void setCountries(ArrayList<Country> countries) {
+        this.countries = countries;
+    }
+
     public ArrayList<Country> getOriginalCountries() {
         return originalCountries;
     }
@@ -68,7 +72,6 @@ public class CountryAdapter extends BaseAdapter implements Filterable {
         if ( view == null ) {
             view = lInflater.inflate(R.layout.item, parent, false);
         }
-
 
         ((ImageView) view.findViewById(R.id.flag)).setImageResource(Country.getIconID(c, context));
         checkMark = ((ImageView) view.findViewById(R.id.checked));
@@ -124,5 +127,18 @@ public class CountryAdapter extends BaseAdapter implements Filterable {
                 return originalCountries;
             }
         };
+    }
+
+    public void showCountries(ArrayList<String> countriesList) {
+        ArrayList<Country> selectedCountries = new ArrayList<Country>();
+
+        for ( Country country : originalCountries ) {
+            if ( countriesList.contains(country.getName()) ) {
+                selectedCountries.add(country);
+            }
+        }
+
+        setCountries(selectedCountries);
+        notifyDataSetChanged();
     }
 }

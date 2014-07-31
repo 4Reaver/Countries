@@ -3,20 +3,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/list_background"
-    android:descendantFocusability="beforeDescendants">
-    <EditText
-        android:id="@+id/filter"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true">
+    <LinearLayout
+        android:id="@+id/topLL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/filter_hint"
-        android:layout_alignParentTop="true"
-        android:textColor="@color/item_text_color"/>
+        android:layout_alignParentTop="true">
+        <EditText
+            android:id="@+id/filter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/filter_hint"
+            android:textColor="@color/item_text_color"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/start_peopleActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text="@string/button_people_text"/>
+    </LinearLayout>
     <ListView
         android:id="@+id/listViewMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/buttons"
-        android:layout_below="@+id/filter">
+        android:layout_below="@+id/topLL">
     </ListView>
     <LinearLayout
         android:id="@+id/buttons"

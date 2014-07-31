@@ -24,5 +24,8 @@
         <item name="android:gravity">left</item>
         <item name="android:textSize">@dimen/detail_text_size</item>
     </style>
+    <style name="item_person" parent="item_country_name">
+        <item name="android:textSize">@dimen/person_list_item_text_size</item>
+    </style>
 
 </resources>
