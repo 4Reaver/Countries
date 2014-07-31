@@ -30,6 +30,7 @@ import java.util.Scanner;
 public class MainActivity extends Activity implements View.OnClickListener, FragmentAdd.OnOkButtonClickListener,
         TextWatcher {
     private static final int DELETE_ID = 1;
+    private static final int PEOPLE_REQUEST_CODE = 42;
 
     private CountryAdapter adapter;
     private ArrayList<Country> countries = new ArrayList<Country>();
@@ -128,7 +129,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
                 break;
             case R.id.start_peopleActivity:
                 Intent intent = new Intent(this, PeopleActivity.class);
-                this.startActivity(intent);
+                startActivityForResult(intent, PEOPLE_REQUEST_CODE);
         }
     }
 
@@ -171,6 +172,17 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
 
     @Override
     public void afterTextChanged(Editable editable) {
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //super.onActivityResult(requestCode, resultCode, data);
+        if ( requestCode == PEOPLE_REQUEST_CODE && resultCode == Activity.RESULT_OK ) {
+            ArrayList<String> selectedCountries =
+                    data.getStringArrayListExtra(PeopleActivity.setCountries);
+             adapter.showCountries(selectedCountries);
+        }
 
     }
 }
