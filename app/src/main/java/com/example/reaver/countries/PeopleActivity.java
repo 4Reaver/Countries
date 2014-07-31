@@ -2,6 +2,7 @@ package com.example.reaver.countries;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -30,7 +31,11 @@ public class PeopleActivity extends Activity {
         personAdapter = new PersonAdapter(this, persons);
         lvPersons.setAdapter(personAdapter);
         lvPersons.setOnItemClickListener(personAdapter);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-
+    public boolean onOptionsItemSelected(MenuItem item) {
+        finish();
+        return true;
+    }
 }
