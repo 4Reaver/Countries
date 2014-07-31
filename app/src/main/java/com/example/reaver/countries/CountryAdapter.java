@@ -69,7 +69,6 @@ public class CountryAdapter extends BaseAdapter implements Filterable {
             view = lInflater.inflate(R.layout.item, parent, false);
         }
 
-
         ((ImageView) view.findViewById(R.id.flag)).setImageResource(Country.getIconID(c, context));
         checkMark = ((ImageView) view.findViewById(R.id.checked));
         if ( c.isChecked() ) {

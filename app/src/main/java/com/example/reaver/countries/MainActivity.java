@@ -63,6 +63,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
         lvMain.setOnItemClickListener(new ListViewItemDoubleClickListener(this, adapter));
         registerForContextMenu(lvMain);
         fragmentAdd = new FragmentAdd();
+        findViewById(R.id.start_peopleActivity).setOnClickListener(this);
     }
 
     @Override
@@ -125,6 +126,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
                 adapter.invertChangeBackground();
                 adapter.notifyDataSetChanged();
                 break;
+            case R.id.start_peopleActivity:
+                Intent intent = new Intent(this, PeopleActivity.class);
+                this.startActivity(intent);
         }
     }
 
