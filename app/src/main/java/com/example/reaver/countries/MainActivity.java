@@ -3,6 +3,7 @@ package com.example.reaver.countries;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -31,6 +32,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
         TextWatcher {
     private static final int DELETE_ID = 1;
     private static final int PEOPLE_REQUEST_CODE = 42;
+    private static final int COLOR_REQUEST_CODE = 43;
 
     private CountryAdapter adapter;
     private ArrayList<Country> countries = new ArrayList<Country>();
@@ -65,6 +67,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
         registerForContextMenu(lvMain);
         fragmentAdd = new FragmentAdd();
         findViewById(R.id.start_peopleActivity).setOnClickListener(this);
+        findViewById(R.id.start_colorsActivity).setOnClickListener(this);
     }
 
     @Override
@@ -108,6 +111,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
 
     @Override
     public void onClick(View view) {
+        Intent intent;
         switch (view.getId()) {
             case R.id.addButton:
                 fragmentAdd.show(getFragmentManager(), "add_TAG");
@@ -128,8 +132,13 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
                 adapter.notifyDataSetChanged();
                 break;
             case R.id.start_peopleActivity:
-                Intent intent = new Intent(this, PeopleActivity.class);
+                intent = new Intent(this, PeopleActivity.class);
                 startActivityForResult(intent, PEOPLE_REQUEST_CODE);
+                break;
+            case R.id.start_colorsActivity:
+                intent = new Intent(this, ColorActivity.class);
+                startActivityForResult(intent, COLOR_REQUEST_CODE);
+                break;
         }
     }
 
@@ -178,11 +187,17 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //super.onActivityResult(requestCode, resultCode, data);
-        if ( requestCode == PEOPLE_REQUEST_CODE && resultCode == Activity.RESULT_OK ) {
-            ArrayList<String> selectedCountries =
-                    data.getStringArrayListExtra(PeopleActivity.setCountries);
-             adapter.showCountries(selectedCountries);
-        }
+        if ( resultCode == Activity.RESULT_OK ) {
+            if ( requestCode == PEOPLE_REQUEST_CODE ) {
+                ArrayList<String> selectedCountries =
+                        data.getStringArrayListExtra(PeopleActivity.setCountries);
+                adapter.showCountries(selectedCountries);
+            } else if ( requestCode == COLOR_REQUEST_CODE ) {
+                String color = data.getStringExtra(ColorActivity.COLOR_TAG);
 
+                adapter.setBackgroungColor(Color.parseColor(color));
+                adapter.notifyDataSetChanged();
+            }
+        }
     }
 }

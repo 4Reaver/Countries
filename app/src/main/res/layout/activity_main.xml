@@ -18,10 +18,14 @@
             android:textColor="@color/item_text_color"
             android:layout_weight="1"/>
         <Button
+            android:id="@+id/start_colorsActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_colors_text"/>
+        <Button
             android:id="@+id/start_peopleActivity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0"
             android:text="@string/button_people_text"/>
     </LinearLayout>
     <ListView

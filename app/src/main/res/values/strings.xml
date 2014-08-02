@@ -14,4 +14,5 @@
     <string name="add_country_dialog_title">Add new country</string>
     <string name="filter_hint">Filter here</string>
     <string name="button_people_text">People</string>
+    <string name="button_colors_text">Colors</string>
 </resources>

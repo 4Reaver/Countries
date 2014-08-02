@@ -2,6 +2,7 @@ package com.example.reaver.countries;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ public class CountryAdapter extends BaseAdapter implements Filterable {
     private LayoutInflater lInflater;
     private ArrayList<Country> countries;
     private ArrayList<Country> originalCountries;
+    private int backgroungColor = Color.parseColor("#FF111111");
 
     public CountryAdapter(Context context, ArrayList<Country> countries) {
         this.context = context;
@@ -45,6 +47,10 @@ public class CountryAdapter extends BaseAdapter implements Filterable {
 
     public void invertChangeBackground() {
         changeBackground = !changeBackground;
+    }
+
+    public void setBackgroungColor(int backgroungColor) {
+        this.backgroungColor = backgroungColor;
     }
 
     @Override
@@ -86,7 +92,7 @@ public class CountryAdapter extends BaseAdapter implements Filterable {
         if ( changeBackground && c.isChecked()) {
             view.setBackgroundColor(resources.getColor(R.color.listItem_selected_background));
         } else {
-            view.setBackgroundColor(resources.getColor(R.color.list_background));
+            view.setBackgroundColor(backgroungColor);
         }
 
         return view;
