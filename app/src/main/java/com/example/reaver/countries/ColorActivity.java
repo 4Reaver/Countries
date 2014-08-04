@@ -36,7 +36,6 @@ public class ColorActivity extends Activity implements AdapterView.OnItemClickLi
         lvColors.setOnItemClickListener(this);
     }
 
-
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Intent intent = new Intent();

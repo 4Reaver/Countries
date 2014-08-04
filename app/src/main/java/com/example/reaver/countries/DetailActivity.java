@@ -1,7 +1,9 @@
 package com.example.reaver.countries;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,22 +14,11 @@ public class DetailActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Country country = getIntent().getExtras().getParcelable("Country");
-        ImageView flag;
-        TextView name;
-        TextView area;
-        TextView population;
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_info);
 
-        flag = (ImageView) findViewById(R.id.detail_flag);
-        name = (TextView) findViewById(R.id.detail_name);
-        area = (TextView) findViewById(R.id.detail_area);
-        population = (TextView) findViewById(R.id.detail_population);
-
-        flag.setImageResource(Country.getFullFlagID(country, this));
-        name.setText("Country: " + country.getName());
-        area.setText("Area: " + country.getArea());
-        population.setText("Population: " + country.getPopulation());
+        Fragment fragment = getFragmentManager().findFragmentById(R.id.fragment_detail_info);
+        ((FragmentDetailInfo) fragment).updateContent(country);
     }
 }

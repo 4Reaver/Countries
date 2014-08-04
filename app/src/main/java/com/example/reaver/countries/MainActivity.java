@@ -2,6 +2,7 @@ package com.example.reaver.countries;
 
 import android.app.Activity;
 import android.app.DialogFragment;
+import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -28,46 +29,31 @@ import java.util.Locale;
 import java.util.Scanner;
 
 
-public class MainActivity extends Activity implements View.OnClickListener, FragmentAdd.OnOkButtonClickListener,
-        TextWatcher {
-    private static final int DELETE_ID = 1;
+public class MainActivity extends Activity implements View.OnClickListener, FragmentAdd.OnOkButtonClickListener
+       , FragmentCountriesList.OnAddButtonClickListener {
+
     private static final int PEOPLE_REQUEST_CODE = 42;
     private static final int COLOR_REQUEST_CODE = 43;
+    public static final String LOG_TAG = "My";
 
+    private ArrayList<Country> countries;
     private CountryAdapter adapter;
-    private ArrayList<Country> countries = new ArrayList<Country>();
     private DialogFragment fragmentAdd;
     private EditText filter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Button addButton;
-        Button delSelected;
-        Button changeBackground;
-        ListView lvMain;
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        fillData();
-
-        addButton = (Button) findViewById(R.id.addButton);
-        addButton.setOnClickListener(this);
-        delSelected = (Button) findViewById(R.id.btnDelSelected);
-        delSelected.setOnClickListener(this);
-        changeBackground = (Button) findViewById(R.id.btnChangeBackground);
-        changeBackground.setOnClickListener(this);
-        filter = (EditText) findViewById(R.id.filter);
-        filter.addTextChangedListener(this);
-        lvMain = (ListView) findViewById(R.id.listViewMain);
-        adapter = new CountryAdapter(this, countries);
-        lvMain.setAdapter(adapter);
-
-        lvMain.setOnItemClickListener(new ListViewItemDoubleClickListener(this, adapter));
-        registerForContextMenu(lvMain);
         fragmentAdd = new FragmentAdd();
         findViewById(R.id.start_peopleActivity).setOnClickListener(this);
         findViewById(R.id.start_colorsActivity).setOnClickListener(this);
+
+        Fragment fragment_countries_list = getFragmentManager().findFragmentById(R.id.fragment_countries_list);
+        filter = (EditText) fragment_countries_list.getView().findViewById(R.id.filter);
+        countries = ((FragmentCountriesList) fragment_countries_list).getCountries();
+        adapter = ((FragmentCountriesList) fragment_countries_list).getAdapter();
     }
 
     @Override
@@ -89,48 +75,14 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
         return super.onOptionsItemSelected(item);
     }
 
-    private void fillData() {
-        try {
-            InputStream is = getAssets().open("names_s_a.txt");
-            Scanner scanner = new Scanner(is).useLocale(Locale.US);
-            String name;
-            int area;
-            int population;
-
-            while ( scanner.hasNextLine() ) {
-                name = scanner.nextLine();
-                area = scanner.nextInt();
-                population = scanner.nextInt();
-                countries.add(new Country(this, name, area, population));
-                scanner.nextLine();
-            }
-        } catch (IOException e) {
-            Log.d("MY_LOG", "File \"namesandsquares\" not found");
-        }
+    public ArrayList<Country> getCountries() {
+        return countries;
     }
 
     @Override
     public void onClick(View view) {
         Intent intent;
         switch (view.getId()) {
-            case R.id.addButton:
-                fragmentAdd.show(getFragmentManager(), "add_TAG");
-                break;
-            case R.id.btnDelSelected:
-                ArrayList<Country> countriesSet = new ArrayList<Country>(countries);
-
-                for ( Country c : countriesSet ) {
-                    if ( c.isChecked() ) {
-                        countries.remove(c);
-                    }
-                }
-                adapter.getFilter().filter(filter.getText().toString());
-                adapter.notifyDataSetChanged();
-                break;
-            case R.id.btnChangeBackground:
-                adapter.invertChangeBackground();
-                adapter.notifyDataSetChanged();
-                break;
             case R.id.start_peopleActivity:
                 intent = new Intent(this, PeopleActivity.class);
                 startActivityForResult(intent, PEOPLE_REQUEST_CODE);
@@ -152,39 +104,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
     }
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        menu.add(0, DELETE_ID, 0, "Удалить");
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        if ( item.getItemId() == DELETE_ID ) {
-            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-
-            countries.remove((int) info.id);
-            adapter.getFilter().filter(filter.getText().toString());
-            adapter.notifyDataSetChanged();
-        }
-        return super.onContextItemSelected(item);
-    }
-
-    @Override
-    public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-        adapter.getFilter().filter(filter.getText().toString());
-    }
-
-    @Override
-    public void afterTextChanged(Editable editable) {
-
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //super.onActivityResult(requestCode, resultCode, data);
         if ( resultCode == Activity.RESULT_OK ) {
@@ -199,5 +118,10 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
                 adapter.notifyDataSetChanged();
             }
         }
+    }
+
+    @Override
+    public void onAddButtonClick() {
+        fragmentAdd.show(getFragmentManager(), "add_TAG");
     }
 }
