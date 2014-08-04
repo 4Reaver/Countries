@@ -1,7 +1,9 @@
 package com.example.reaver.countries;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.hardware.display.DisplayManager;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -79,9 +81,15 @@ public class ListViewItemDoubleClickListener implements AdapterView.OnItemClickL
     }
 
     public void onSingleTap(AdapterView<?> adapterView, View view, int i, long l) {
-        Intent intent = new Intent(context, DetailActivity.class);
-        intent.putExtra("Country", adapter.getCountries().get(i));
-        context.startActivity(intent);
+        FragmentDetailInfo displayfrag = (FragmentDetailInfo) ((Activity) context).getFragmentManager().findFragmentById(R.id.fragment_detail_info);
+
+        if ( displayfrag == null ) {
+            Intent intent = new Intent(context, DetailActivity.class);
+            intent.putExtra("Country", adapter.getCountries().get(i));
+            context.startActivity(intent);
+        } else {
+            displayfrag.updateContent(adapter.getCountries().get(i));
+        }
     }
 
     public void onDoubleTap(AdapterView<?> adapterView, View view, int i, long l) {
