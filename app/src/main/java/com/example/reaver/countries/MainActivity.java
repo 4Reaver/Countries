@@ -40,6 +40,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
     private CountryAdapter adapter;
     private DialogFragment fragmentAdd;
     private EditText filter;
+    private DataBase dataBase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
         filter = (EditText) fragment_countries_list.getView().findViewById(R.id.filter);
         countries = ((FragmentCountriesList) fragment_countries_list).getCountries();
         adapter = ((FragmentCountriesList) fragment_countries_list).getAdapter();
+        dataBase = ((FragmentCountriesList) fragment_countries_list).getDataBase();
     }
 
     @Override
@@ -99,6 +101,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
         Toast.makeText(this, "Добавлена страна: ".concat(newCountry.toString()), Toast.LENGTH_SHORT).show();
 
         countries.add(newCountry);
+        dataBase.addCountry(newCountry);
         adapter.getFilter().filter(filter.getText().toString());
         adapter.notifyDataSetChanged();
     }
@@ -123,5 +126,11 @@ public class MainActivity extends Activity implements View.OnClickListener, Frag
     @Override
     public void onAddButtonClick() {
         fragmentAdd.show(getFragmentManager(), "add_TAG");
+    }
+
+    @Override
+    protected void onDestroy() {
+        dataBase.close();
+        super.onDestroy();
     }
 }

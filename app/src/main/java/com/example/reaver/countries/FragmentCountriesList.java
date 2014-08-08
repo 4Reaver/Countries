@@ -2,6 +2,7 @@ package com.example.reaver.countries;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -34,6 +35,7 @@ public class FragmentCountriesList extends Fragment implements View.OnClickListe
     private EditText filter;
     private MainActivity activity;
     private OnAddButtonClickListener parentActivity;// убрать это говно
+    private DataBase dataBase;
 
     @Override
     public void onAttach(Activity activity) {
@@ -85,6 +87,10 @@ public class FragmentCountriesList extends Fragment implements View.OnClickListe
         return countries;
     }
 
+    public DataBase getDataBase() {
+        return dataBase;
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -97,6 +103,7 @@ public class FragmentCountriesList extends Fragment implements View.OnClickListe
                 for ( Country c : countriesSet ) {
                     if ( c.isChecked() ) {
                         countries.remove(c);
+                        dataBase.deleteCountry(c);
                     }
                 }
                 adapter.getFilter().filter(filter.getText().toString());
@@ -120,8 +127,10 @@ public class FragmentCountriesList extends Fragment implements View.OnClickListe
     public boolean onContextItemSelected(MenuItem item) {
         if ( item.getItemId() == DELETE_ID ) {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+            int id = (int) info.id;
 
-            countries.remove((int) info.id);
+            dataBase.deleteCountry(countries.get(id));
+            countries.remove(id);
             adapter.getFilter().filter(filter.getText().toString());
             adapter.notifyDataSetChanged();
         }
@@ -144,23 +153,22 @@ public class FragmentCountriesList extends Fragment implements View.OnClickListe
     }
 
     private void fillData() {
-        try {
-            InputStream is = activity.getAssets().open("names_s_a.txt");
-            Scanner scanner = new Scanner(is).useLocale(Locale.US);
-            String name;
-            int area;
-            int population;
+        Cursor c;
+        int idColumnName;
+        int idColumnArea;
+        int idColumnPopulation;
 
-            countries = new ArrayList<Country>();
-            while ( scanner.hasNextLine() ) {
-                name = scanner.nextLine();
-                area = scanner.nextInt();
-                population = scanner.nextInt();
-                countries.add(new Country(activity, name, area, population));
-                scanner.nextLine();
-            }
-        } catch (IOException e) {
-            Log.d("MY_LOG", "File \"namesandsquares\" not found");
+        countries = new ArrayList<Country>();
+        dataBase = new DataBase(activity);
+        dataBase.open();
+        c = dataBase.getAllData();
+        idColumnName = c.getColumnIndex("country_name");
+        idColumnArea = c.getColumnIndex("country_area");
+        idColumnPopulation = c.getColumnIndex("country_population");
+
+        for ( boolean i = c.moveToFirst(); i; i = c.moveToNext() ) {
+            countries.add(new Country(activity, c.getString(idColumnName),
+                    c.getInt(idColumnArea), c.getInt(idColumnPopulation)));
         }
     }
 

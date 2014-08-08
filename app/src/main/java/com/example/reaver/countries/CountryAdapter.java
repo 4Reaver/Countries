@@ -138,13 +138,17 @@ public class CountryAdapter extends BaseAdapter implements Filterable {
     public void showCountries(ArrayList<String> countriesList) {
         ArrayList<Country> selectedCountries = new ArrayList<Country>();
 
-        for ( Country country : originalCountries ) {
-            if ( countriesList.contains(country.getName()) ) {
-                selectedCountries.add(country);
+        if ( countriesList.size() != 0 ) {
+            for ( Country country : originalCountries ) {
+                if ( countriesList.contains(country.getName()) ) {
+                    selectedCountries.add(country);
+                }
             }
+            setCountries(selectedCountries);
+        } else {
+            setCountries(originalCountries);
         }
 
-        setCountries(selectedCountries);
         notifyDataSetChanged();
     }
 }
