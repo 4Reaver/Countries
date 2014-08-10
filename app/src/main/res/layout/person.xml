@@ -26,6 +26,5 @@
         android:layout_height="@dimen/checkbox_size"
         android:layout_gravity="center"
         android:gravity="center"
-        android:focusable="false"
-        android:focusableInTouchMode="false"/>
+        android:focusable="false"/>
 </LinearLayout>
