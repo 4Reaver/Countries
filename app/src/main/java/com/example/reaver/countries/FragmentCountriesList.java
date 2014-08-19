@@ -116,7 +116,6 @@ public class FragmentCountriesList extends Fragment implements View.OnClickListe
         }
     }
 
-    // если контекстное меню не будет работать вернуть эти 2 метода обратно в меин
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
